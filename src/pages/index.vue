@@ -1,5 +1,8 @@
 <template>
     <div>
-        test
+        <Generator />
     </div>
 </template>
+<script lang="ts">
+
+</script>
