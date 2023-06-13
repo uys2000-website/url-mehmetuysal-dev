@@ -1,27 +1,11 @@
 <template>
-    <div class="max-w-md">
+    <div class="max-w-md flex flex-col gap-1">
         <div>
             <label class="block" for="url">URL</label>
-            <input type="text" name="url"  v-model="url">
-        </div>
-        <div class="flex justify-between">
-            <label for="count">Acces Count</label>
-            <input class="w-6 h-6" type="number" name="count"  v-model="count">
-        </div>
-        <div class="flex justify-between">
-            <label for="isPublic">Show in public list</label>
-            <input class="w-6 h-6" type="checkbox" name="isPublic" v-model="isPublic">
-        </div>
-        <div class="flex justify-between">
-            <label for="isMailable">Send me notification mail</label>
-            <input class="w-6 h-6" type="checkbox" name="isMailable" v-model="isMailable">
-        </div>
-        <div class="transition-all duration-200" :class="{'opacity-1':isMailable,'opacity-0':!isMailable,'h-[48px]':isMailable,'h-[0px]':!isMailable}">
-            <label class="block" for="mail">Mail</label>
-            <input type="text" name="mail" v-model="mail">
+            <input class="h-8 rounded-sm" type="text" name="url" v-model="url.targetUrl">
         </div>
         <div>
-            <button>
+            <button @click="generate">
                 Generate
             </button>
         </div>
@@ -29,29 +13,55 @@
 </template>
 
 <script lang="ts">
+import { Url } from '~/types/firestore';
 export default {
-    name:"Generator",
-    data(){
-        return{
-            url:"",
-            count:0,
-            isPublic:false,
-            isMailable:false,
-            mail:"",
-            showMail:false,
+    name: "Generator",
+    data() {
+        return {
+            url: {
+                targetUrl: "",
+                numberUrl: 0,
+                currentUrl: "",
+                isAnonimously: false,
+                uID: "",
+                count: 0,
+                hasCount: false,
+                maxCount: 0,
+                useMailer: false,
+                mail: "",
+                showModal: false,
+                modalID: "",
+                hasBgUrl: false,
+                bgUrl: "",
+                hasPassword: false,
+                isPublic: false,
+                wait: 0,
+            } as Url
         }
     },
-    methods:{
+    methods: {
+        pushUrl() {
 
+        },
+        generateUrl(url: number) {
+            const newUrl = url + 1
+            this.url.numberUrl = newUrl
+            this.url.currentUrl = hexAsString(newUrl)
+            console.log("url :", this.url)
+        },
+        generate() {
+            getLastUrl().then((result) => {
+                console.log(result)
+                if (!result) this.generateUrl(0)
+                else this.generateUrl(result.numberUrl)
+            })
+        }
     },
-    mounted(){
-        console.log(getUrl("125fadcaaa"))
-    }
 }
 </script>
 
 <style>
-input{
+input {
     color: black;
 }
 </style>
