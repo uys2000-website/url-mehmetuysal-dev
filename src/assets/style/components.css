@@ -1,0 +1,9 @@
+/* Headles UI */
+/* Tabs */
+div[role="tablist"] {
+  @apply flex flex-nowrap;
+}
+button[role="tab"] {
+  @apply bg-slate-900 border border-yellow-950;
+  @apply rounded-lg px-2 py-1 w-full h-full;
+}
