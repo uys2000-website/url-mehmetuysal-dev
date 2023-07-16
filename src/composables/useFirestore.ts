@@ -3,14 +3,12 @@ import { Url } from "@/types/url";
 
 const db = useUrlDatabase();
 
-export const createUrl = function (url: Url) {
+export const createUrl = function (id: string, url: Url) {
   const _url = {
     ...url,
     timestamp: Date.now(),
   };
 
-  const docRef = doc(db, "Urls", url.urlIndex.toString());
+  const docRef = doc(db, "Url", id);
   return setDoc(docRef, _url);
 };
-
-export const updateUrl = function (url: Url) {};

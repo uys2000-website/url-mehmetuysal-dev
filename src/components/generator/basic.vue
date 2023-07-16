@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="generate">
+  <form @submit.prevent="runForm">
     <label for="url">
       <input name="url" type="text" v-model="url">
     </label>
@@ -20,18 +20,38 @@
 
 
 <script lang="ts">
+import { Url } from '~/types/url'
+import { Timer } from '~/types/timer'
+
 export default {
   data() {
     return {
       url: "mehmetuysal.dev",
-      limit: 2,
-      generatedUrl: ""
+      limit: 1,
+      generatedUrl: "",
+      timer: new Timer()
     }
   },
   methods: {
-    generate() {
-      this.generatedUrl = "suys.jw.lt/" + getNextUrl()
-    }
+    async getLastUrl() {
+      const { data } = await useFetch("/api/url");
+      if (data && data.value && data.value.index) return data.value.index;
+      else return 0;
+    },
+    async createNewUrl(index: number) {
+      const _index = index + 0x1;
+      const url = new Url(this.url, _index, this.limit);
+      await createUrl(getStringFromHex(_index), url);
+      return url
+    },
+    async runForm() {
+      this.timer.start()
+      const lastUrlIndex = await this.getLastUrl();
+      const currentUrl = await this.createNewUrl(lastUrlIndex);
+      this.generatedUrl = "suys.jw.lt/" + getStringFromHex(currentUrl.urlIndex);
+      this.timer.end(true)
+    },
+
   }
 }
 </script>
