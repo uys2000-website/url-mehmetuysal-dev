@@ -26,6 +26,7 @@ import { Timer } from '~/types/timer'
 export default {
   data() {
     return {
+      mainStore: useMainStore(),
       url: "mehmetuysal.dev",
       limit: 1,
       generatedUrl: "",
@@ -40,7 +41,8 @@ export default {
     },
     async createNewUrl(index: number) {
       const _index = index + 0x1;
-      const url = new Url(this.url, _index, this.limit);
+      const user = useMainAuth().currentUser?.uid
+      const url = new Url(this.url, _index, this.limit, ...[...Array(4).fill(undefined).values()], user ? user : undefined);
       await createUrl(getStringFromHex(_index), url);
       return url
     },
