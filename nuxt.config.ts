@@ -10,6 +10,14 @@ export default defineNuxtConfig({
     dirs: ["stores"],
   },
 
+  content: {
+    watch: {
+        ws: {
+            hostname: 'silientel'
+        }
+    },
+  },
+
   css: ["~/assets/style/tailwind.css"],
 
   postcss: {
