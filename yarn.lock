@@ -1536,7 +1536,7 @@
     unimport "^3.0.6"
     untyped "^1.3.2"
 
-"@nuxt/kit@^3.5.3", "@nuxt/kit@^3.6.1":
+"@nuxt/kit@^3.0.0-rc.13", "@nuxt/kit@^3.5.3", "@nuxt/kit@^3.6.1":
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.6.3.tgz#bed7adba36f5027b6e79f5ea32400e621f19cfea"
   integrity sha512-Eq+2whSIsZ+2IdB9J3okYOc+nZHassjt13vJZowxO3dw0rsXTnWGFHx40IX+wrBYE6eiOHjU/cXQ1XHdiU2GyQ==
@@ -1668,6 +1668,14 @@
     "@nuxt/kit" "^3.5.3"
     lodash.template "^4.5.0"
     pathe "^1.1.1"
+
+"@nuxtjs/device@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/device/-/device-3.1.0.tgz#50c165563cdac07c9229528b763e65c247614f5b"
+  integrity sha512-jXWCVuPmzsGpn86GTA9/TOmfWulf9h3r2g6o5LpoZk4P1a9McMlpbDiaMPmyG5erfCj6H+XoZ6HBPCN9DtoCDA==
+  dependencies:
+    "@nuxt/kit" "^3.0.0-rc.13"
+    defu "^6.1.0"
 
 "@nuxtjs/robots@^3.0.0":
   version "3.0.0"

@@ -4,7 +4,7 @@ import { pinia } from "./nuxt.modules";
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: true,
-  modules: [pinia, '@nuxt/content'],
+  modules: [pinia, "@nuxt/content", "@nuxtjs/device"],
 
   imports: {
     dirs: ["stores"],
@@ -12,9 +12,9 @@ export default defineNuxtConfig({
 
   content: {
     watch: {
-        ws: {
-            hostname: 'silientel'
-        }
+      ws: {
+        hostname: "silientel",
+      },
     },
   },
 
