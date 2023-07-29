@@ -7,8 +7,10 @@ export default defineNuxtConfig({
   modules: [pinia, "@nuxt/content", "@nuxtjs/device"],
 
   imports: {
-    dirs: ["stores"],
+    dirs: ["stores", "services"],
   },
+
+  plugins: ["@/plugins/DebugLogger"],
 
   content: {
     watch: {
