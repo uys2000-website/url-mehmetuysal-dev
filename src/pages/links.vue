@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="max-h-40 overflow-auto">
     <thead>
       <tr>
         <th>
@@ -26,7 +26,7 @@
           {{ link.urlOrginal }}
         </td>
         <td>
-          {{ link.urlIndex }}
+          {{ getStringFromHex(link.urlIndex) }}
         </td>
         <td>
           {{ link.urlUsageLimit - link.urlUsage }}
@@ -37,12 +37,27 @@
           </button>
         </td>
         <td>
-          <button class="text-lime-400">
+          <button class="text-lime-400" @click="deleteUrl(link.urlIndex)">
             X
           </button>
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          <button @click="lastPage">
+            Last Page
+          </button>
+        </td>
+        <td></td>
+        <td colspan="2">
+          <button @click="nextPage">
+            Next Page
+          </button>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </template>
 
@@ -69,26 +84,39 @@ export default {
     },
     checkIsLogged() {
       setTimeout(() => {
-        if (!getUser()) {
+        if (!getUser.logger()) {
           alert("Opss you are not logged")
           this.redirectToGenerator()
         }
       }, 1000);
     },
-    getUrls() {
-      getUrls(getUser()?.uid as string).then(result => {
-        this.links = result.docs.map(rawDoc => rawDoc.data() as Url)
+    getUrls(startWith?: number, toForward: boolean = true) {
+      getUrls.pLogger(getUser.logger()?.uid as string, startWith, toForward).then(result => {
+        this.links = toForward ? result as Url[] : result.reverse() as Url[]
       })
+    },
+    deleteUrl(index: number) {
+      deleteUrl.pLogger(getStringFromHex(index)).then(() => {
+        this.links = this.links.filter(link => link.urlIndex != index)
+      })
+    },
+    lastPage() {
+      const docTimestamp = this.links[0]?.timestamp;
+      this.getUrls(docTimestamp, false)
+    },
+    nextPage() {
+      const docTimestamp = this.links[this.links.length - 1]?.timestamp;
+      this.getUrls(docTimestamp, true)
     }
   },
   watch: {
     async isLogged() {
       if (this.isLogged == false) this.redirectToGenerator()
-      else this.getUrls()
+      else this.getUrls(undefined, true)
     }
   },
   mounted() {
-    if (this.isLogged) this.getUrls()
+    if (this.isLogged) this.getUrls(undefined, true)
   },
 }
 </script>
