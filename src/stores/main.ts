@@ -2,13 +2,10 @@ export const useMainStore = defineStore("MainStore", {
   state: () => {
     return {
       layout: "default",
+      isLogged: false,
     };
   },
-  actions: {
-    setLayout(value: string) {
-      this.layout = value;
-    },
-  },
+  actions: {},
   getters: {
     getLayout: (state) => {
       return state.layout;

@@ -10,12 +10,11 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors:{
+      colors: {
         primary: "#000000",
-        secondary: "#ffffff"
-      }
+        secondary: "#ffffff",
+      },
     },
   },
-  plugins: [],
-}
-
+  plugins: [require("@headlessui/tailwindcss")],
+};

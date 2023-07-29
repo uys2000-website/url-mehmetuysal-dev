@@ -3,8 +3,8 @@ import { Analytics, getAnalytics } from "firebase/analytics";
 import { Auth, getAuth } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";
 import { FirebaseStorage, getStorage } from "firebase/storage";
-import mainKey from "~/keys/firebase/main"
-import urlKey from "~/keys/firebase/url"
+import mainKey from "~/keys/firebase/main";
+import urlKey from "~/keys/firebase/url";
 
 let mainApp: undefined | FirebaseApp;
 let mainAnalytics: undefined | Analytics;
@@ -17,7 +17,7 @@ let urlDatabase: undefined | Firestore;
 let urlStorage: undefined | FirebaseStorage;
 
 export const useMainApp = function () {
-  if (!mainApp) mainApp = initializeApp(mainKey);
+  if (!mainApp) mainApp = initializeApp(mainKey, "main");
   return mainApp;
 };
 
@@ -32,7 +32,7 @@ export const useMainAuth = function () {
 };
 
 export const useUrlApp = function () {
-  if (!urlApp) urlApp = initializeApp(urlKey);
+  if (!urlApp) urlApp = initializeApp(urlKey, "url");
   return urlApp;
 };
 
