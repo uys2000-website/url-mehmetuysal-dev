@@ -84,14 +84,14 @@ export default {
     },
     checkIsLogged() {
       setTimeout(() => {
-        if (!getUser.logger()) {
+        if (!getUserId.logger()) {
           alert("Opss you are not logged")
           this.redirectToGenerator()
         }
       }, 1000);
     },
     getUrls(startWith?: number, toForward: boolean = true) {
-      getUrls.pLogger(getUser.logger()?.uid as string, startWith, toForward).then(result => {
+      getUrls.pLogger(getUserId.logger() as string, startWith, toForward).then(result => {
         this.links = toForward ? result as Url[] : result.reverse() as Url[]
       })
     },

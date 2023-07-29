@@ -32,6 +32,10 @@ export const getUser = function () {
   return useMainAuth().currentUser;
 };
 
+export const getUserId = function () {
+  return useMainAuth().currentUser?.uid;
+};
+
 export const listenAuth = function (runFunction: NextOrObserver<User>) {
   return onAuthStateChanged(useMainAuth(), runFunction);
 };
