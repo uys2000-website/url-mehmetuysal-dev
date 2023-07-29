@@ -48,7 +48,7 @@ function setDebugMode(stringMode: boolean) {
 
   Function.prototype.logger = function (this, ...args) {
     l("l", "Function", "Run", this.name, ...args);
-    return l("l", "Function", "Res", this.apply(null, args));
+    return l("l", "Function", "Res", this.name, this.apply(null, args));
   };
 
   Function.prototype.pLogger = function (this, ...args) {
