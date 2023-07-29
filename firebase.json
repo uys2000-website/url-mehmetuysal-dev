@@ -7,7 +7,6 @@
     {
       "source": ".output/server",
       "codebase": "default",
-      "runtime": "nodejs16",
       "ignore": [
         "node_modules",
         ".git",
@@ -17,6 +16,7 @@
     }
   ],
   "hosting": {
+    "site": "url-mehmetuysal-dev",
     "public": ".output/public",
     "cleanUrls": true,
     "rewrites": [{ "source": "**", "function": "server" }],
@@ -24,6 +24,27 @@
   },
   "storage": {
     "rules": "firebase/storage.rules"
+  },
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
+    },
+    "hosting": {
+      "port": 5000
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true
   },
   "remoteconfig": {
     "template": "firebase/remoteconfig.template.json"
