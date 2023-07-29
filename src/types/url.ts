@@ -1,5 +1,6 @@
 export class Url {
   timestamp!: number;
+  utimestamp!: number;
   urlOrginal!: string;
   urlIndex!: number;
 

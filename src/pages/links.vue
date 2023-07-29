@@ -26,13 +26,15 @@
           {{ link.urlOrginal }}
         </td>
         <td>
-          {{ getStringFromHex(link.urlIndex) }}
+          <a :href="`http://suys.jw.lt/${getStringFromHex(link.urlIndex)}${debugParamater}`">
+            http://suys.jw.lt/{{ getStringFromHex(link.urlIndex) }}
+          </a>
         </td>
         <td>
           {{ link.urlUsageLimit - link.urlUsage }}
         </td>
         <td>
-          <button class="text-2xl">
+          <button class="text-2xl" @click="openUpdateModal(link)">
             ✎
           </button>
         </td>
@@ -59,9 +61,14 @@
       </tr>
     </tfoot>
   </table>
+
+  <CommonModal :is-open="isEditing" :is-persistent="false" :close-modal="closeUpdateModal">
+    <GeneratorTemplate ref="generator" update-mode :cancel="closeUpdateModal" />
+  </CommonModal>
 </template>
 
 <script lang="ts">
+import Generator from 'components/generator/template.vue';
 import { Url } from '~/types/url';
 
 
@@ -69,27 +76,19 @@ export default {
   data() {
     return {
       mainStore: useMainStore(),
-      links: [] as Url[]
+      links: [] as Url[],
+      isEditing: false,
     }
   },
   computed: {
     isLogged() {
-      return this.mainStore.isLogged
+      return this.mainStore.isLogged;
+    },
+    debugParamater() {
+      return onLocal() ? "debug" : "";
     }
   },
   methods: {
-    redirectToGenerator() {
-      this.links = []
-      this.$router.push("/")
-    },
-    checkIsLogged() {
-      setTimeout(() => {
-        if (!getUserId.logger()) {
-          alert("Opss you are not logged")
-          this.redirectToGenerator()
-        }
-      }, 1000);
-    },
     getUrls(startWith?: number, toForward: boolean = true) {
       getUrls.pLogger(getUserId.logger() as string, startWith, toForward).then(result => {
         this.links = toForward ? result as Url[] : result.reverse() as Url[]
@@ -107,12 +106,20 @@ export default {
     nextPage() {
       const docTimestamp = this.links[this.links.length - 1]?.timestamp;
       this.getUrls(docTimestamp, true)
+    },
+    openUpdateModal(link: Url) {
+      this.isEditing = true;
+      setTimeout(() => {
+        (this.$refs.generator as typeof Generator).setUrl(link)
+      })
+    },
+    closeUpdateModal() {
+      this.isEditing = false
     }
   },
   watch: {
     async isLogged() {
-      if (this.isLogged == false) this.redirectToGenerator()
-      else this.getUrls(undefined, true)
+      if (this.isLogged == true) this.getUrls(undefined, true)
     }
   },
   mounted() {
