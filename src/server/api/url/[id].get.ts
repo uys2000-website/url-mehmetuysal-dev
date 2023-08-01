@@ -1,5 +1,7 @@
 import { Url } from "~/types/url";
 
+import { firestoreUrl as firestore } from "~/server/utils/firebase";
+
 const responseBadRequest = function (event: any) {
   setResponseStatus(event, 400);
   return { hasError: true };

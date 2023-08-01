@@ -1,6 +1,5 @@
 import {
   collection,
-  deleteDoc,
   doc,
   getDocs,
   limit,
@@ -45,7 +44,10 @@ export const getUrls = function (
   return getDocs(q).then((res) => res.docs.map((res) => res.data()));
 };
 
-export const deleteUrl = function (uID: string) {
-  const docRef = doc(useUrlDatabase(), "Url", uID);
-  return deleteDoc(docRef);
+export const deleteUrl = async function (index: string) {
+  const token = await getUserToken();
+  return await useFetch(`/api/url/${index}/`, {
+    method: "DELETE",
+    body: { token: token },
+  });
 };
