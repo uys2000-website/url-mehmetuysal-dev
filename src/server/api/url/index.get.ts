@@ -1,5 +1,5 @@
 import { Url } from "~/types/url";
-import { firestore } from "~/server/utils/firebase";
+import { firestoreUrl as firestore } from "~/server/utils/firebase";
 
 export default defineEventHandler(async (event) => {
   const query = firestore

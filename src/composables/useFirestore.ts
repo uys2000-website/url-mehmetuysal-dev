@@ -14,20 +14,15 @@ import {
 import { Url } from "@/types/url";
 
 export const createUrl = function (id: string, url: Url) {
-  const _url = {
-    ...url,
-    timestamp: Date.now(),
-    utimestamp: Date.now(),
-  };
-
+  const _url = { ...url };
+  _url.timestamp = Date.now();
+  _url.utimestamp = Date.now();
   const docRef = doc(useUrlDatabase(), "Url", id);
   return setDoc(docRef, _url);
 };
 export const updateUrl = function (id: string, url: Url) {
-  const _url = {
-    ...url,
-    utimestamp: Date.now(),
-  };
+  const _url = { ...url };
+  _url.utimestamp = Date.now();
 
   const docRef = doc(useUrlDatabase(), "Url", id);
   return updateDoc(docRef, _url);

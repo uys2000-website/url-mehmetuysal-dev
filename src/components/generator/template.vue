@@ -15,7 +15,12 @@
           <GeneratorBasic ref="basic" :update-mode="updateMode" :cancel="cancel" />
         </TabPanel>
         <TabPanel>
-          Will Be Added
+          <template v-if="getUserId()">
+            <GeneratorAdvanced ref="basic" :update-mode="updateMode" :cancel="cancel" />
+          </template>
+          <template v-else>
+            You should Login to see
+          </template>
         </TabPanel>
       </TabPanels>
     </TabGroup>
