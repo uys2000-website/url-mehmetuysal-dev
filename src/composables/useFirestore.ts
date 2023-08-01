@@ -1,6 +1,5 @@
 import {
   collection,
-  deleteDoc,
   doc,
   getDocs,
   limit,
@@ -11,28 +10,22 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { Url } from "@/types/url";
+import { LUrlData, UrlData, UrlError } from "~/types/url";
 
-export const createUrl = function (id: string, url: Url) {
-  const _url = {
-    ...url,
-    timestamp: Date.now(),
-    utimestamp: Date.now(),
-  };
-
+export const createUrl = function (id: string, url: UrlData) {
+  const _url = { ...url };
+  _url.timestamp = Date.now();
+  _url.utimestamp = Date.now();
   const docRef = doc(useUrlDatabase(), "Url", id);
   return setDoc(docRef, _url);
 };
-export const updateUrl = function (id: string, url: Url) {
-  const _url = {
-    ...url,
-    utimestamp: Date.now(),
-  };
+export const updateUrl = function (id: string, url: UrlData) {
+  const _url = { ...url };
+  _url.utimestamp = Date.now();
 
   const docRef = doc(useUrlDatabase(), "Url", id);
   return updateDoc(docRef, _url);
 };
-
 export const getUrls = function (
   uID: string,
   startTimestamp?: number,
@@ -49,8 +42,27 @@ export const getUrls = function (
   );
   return getDocs(q).then((res) => res.docs.map((res) => res.data()));
 };
+export const deleteUrl = async function (index: string) {
+  const token = await getUserToken();
+  return await useLazyFetch(`/api/url/${index}/`, {
+    method: "DELETE",
+    body: { token: token },
+  });
+};
+export const getUrl = async function (index: string) {
+  const request = await useFetch(`/api/url/${index}`, { method: "GET" });
+  await request.execute();
+  return request.data.value as UrlData | UrlError;
+};
+export const getUrlLocked = async function (index: string, token: string) {
+  const request = await useLazyFetch(`/api/url/${index}`, {
+    method: "POST",
+    body: { token: token },
+  });
+  return request.data.value as UrlData | UrlError;
+};
 
-export const deleteUrl = function (uID: string) {
-  const docRef = doc(useUrlDatabase(), "Url", uID);
-  return deleteDoc(docRef);
+export const getLastUrl = async function () {
+  const request = await useLazyFetch("/api/url", { method: "GET" });
+  return request.data.value as LUrlData;
 };

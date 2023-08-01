@@ -3,6 +3,7 @@ export const useMainStore = defineStore("MainStore", {
     return {
       layout: "default",
       isLogged: false,
+      isLoggedToUrl: false,
     };
   },
   actions: {},

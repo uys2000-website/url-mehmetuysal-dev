@@ -1,9 +1,14 @@
 import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
-import serviceAccount from "~/server/keys/url";
+import { getAuth } from "firebase-admin/auth";
 
-export const app = initializeApp({
-  credential: cert(serviceAccount),
-});
+import urlService from "~/server/keys/url";
+import mainService from "~/server/keys/main";
 
-export const firestore = getFirestore();
+export const url = initializeApp({ credential: cert(urlService) }, "url");
+
+export const main = initializeApp({ credential: cert(mainService) }, "main");
+
+export const firestoreUrl = getFirestore(url);
+export const authUrl = getAuth(url);
+export const authMain = getAuth(main);

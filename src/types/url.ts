@@ -1,4 +1,4 @@
-export class Url {
+export class UrlData {
   timestamp!: number;
   utimestamp!: number;
   urlOrginal!: string;
@@ -40,3 +40,12 @@ export class Url {
     this.urlOwner = urlOwner ? urlOwner : "anonymous";
   }
 }
+
+export type LUrlData = {
+  index: number;
+};
+
+export type UrlError = {
+  success: boolean;
+  isLocked: boolean | undefined;
+};

@@ -2,7 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build; cp .env .output/server",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
@@ -27,6 +27,7 @@
     "@nuxtjs/color-mode": "^3.3.0",
     "@nuxtjs/robots": "^3.0.0",
     "@pinia/nuxt": "^0.4.9",
+    "@vueup/vue-quill": "^1.2.0",
     "firebase": "^10.0.0",
     "firebase-admin": "^11.10.1",
     "pinia": "^2.0.35"

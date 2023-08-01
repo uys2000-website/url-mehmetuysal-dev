@@ -21,7 +21,7 @@
           </td>
         </tr>
       </template>
-      <tr v-for="link in links" :key="link.urlIndex">
+      <tr v-for="link, index in links" :key="index">
         <td>
           {{ link.urlOrginal }}
         </td>
@@ -39,7 +39,7 @@
           </button>
         </td>
         <td>
-          <button class="text-lime-400" @click="deleteUrl(link.urlIndex)">
+          <button class="text-lime-400" @click="deleteUrl(link.urlIndex, index)" :disabled="buttons[index]">
             X
           </button>
         </td>
@@ -68,15 +68,15 @@
 </template>
 
 <script lang="ts">
+import { UrlData } from "~/types/url";
 import Generator from 'components/generator/template.vue';
-import { Url } from '~/types/url';
-
 
 export default {
   data() {
     return {
       mainStore: useMainStore(),
-      links: [] as Url[],
+      links: [] as UrlData[],
+      buttons: [] as boolean[],
       isEditing: false,
     }
   },
@@ -91,12 +91,17 @@ export default {
   methods: {
     getUrls(startWith?: number, toForward: boolean = true) {
       getUrls.pLogger(getUserId.logger() as string, startWith, toForward).then(result => {
-        this.links = toForward ? result as Url[] : result.reverse() as Url[]
+        if (result.length > 0)
+          this.buttons = Array(result.length - 1).fill(false)
+        this.links = toForward ? result as UrlData[] : result.reverse() as UrlData[]
       })
     },
-    deleteUrl(index: number) {
-      deleteUrl.pLogger(getStringFromHex(index)).then(() => {
-        this.links = this.links.filter(link => link.urlIndex != index)
+    deleteUrl(index: number, i: number) {
+      this.buttons[i] = false
+      deleteUrl.pLogger(getStringFromHex(index)).then(({ data: { value } }: any) => {
+        if (!value.success) return;
+        this.links.splice(i, 1)
+        this.buttons.splice(i, 1)
       })
     },
     lastPage() {
@@ -107,7 +112,7 @@ export default {
       const docTimestamp = this.links[this.links.length - 1]?.timestamp;
       this.getUrls(docTimestamp, true)
     },
-    openUpdateModal(link: Url) {
+    openUpdateModal(link: UrlData) {
       this.isEditing = true;
       setTimeout(() => {
         (this.$refs.generator as typeof Generator).setUrl(link)
