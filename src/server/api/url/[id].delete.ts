@@ -1,6 +1,3 @@
-import { deleteUrlUser, verifyMainUser } from "~/server/utils/authentication";
-import { deleteUrlDoc, getUrlDoc } from "~/server/utils/firestore";
-
 export default defineEventHandler(async (event) => {
   const index = event.context.params?.id;
   if (!index) return { success: false };

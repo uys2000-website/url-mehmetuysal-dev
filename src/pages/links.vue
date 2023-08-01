@@ -68,15 +68,14 @@
 </template>
 
 <script lang="ts">
+import { UrlData } from "~/types/url";
 import Generator from 'components/generator/template.vue';
-import { Url } from '~/types/url';
-
 
 export default {
   data() {
     return {
       mainStore: useMainStore(),
-      links: [] as Url[],
+      links: [] as UrlData[],
       buttons: [] as boolean[],
       isEditing: false,
     }
@@ -93,8 +92,8 @@ export default {
     getUrls(startWith?: number, toForward: boolean = true) {
       getUrls.pLogger(getUserId.logger() as string, startWith, toForward).then(result => {
         if (result.length > 0)
-          this.buttons = Array(result.length - 1).fill(true)
-        this.links = toForward ? result as Url[] : result.reverse() as Url[]
+          this.buttons = Array(result.length - 1).fill(false)
+        this.links = toForward ? result as UrlData[] : result.reverse() as UrlData[]
       })
     },
     deleteUrl(index: number, i: number) {
@@ -113,7 +112,7 @@ export default {
       const docTimestamp = this.links[this.links.length - 1]?.timestamp;
       this.getUrls(docTimestamp, true)
     },
-    openUpdateModal(link: Url) {
+    openUpdateModal(link: UrlData) {
       this.isEditing = true;
       setTimeout(() => {
         (this.$refs.generator as typeof Generator).setUrl(link)

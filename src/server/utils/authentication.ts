@@ -12,14 +12,22 @@ export const verifyUrlUser = async function (token: string) {
 };
 
 export const getMainUser = async function (mail: string) {
-  return await authUrl.getUserByEmail(mail).catch(() => ({
-    uid: false,
-  }));
+  try {
+    const user = await authUrl.getUserByEmail(mail);
+    if (!user.uid) return undefined;
+    else return user;
+  } catch {
+    return undefined;
+  }
 };
 export const getUrlUser = async function (index: string) {
-  return await authUrl.getUserByEmail(`${index}@mehmetuysal.dev`).catch(() => ({
-    uid: false,
-  }));
+  try {
+    const user = await authUrl.getUserByEmail(`${index}@mehmetuysal.dev`);
+    if (!user.uid) return undefined;
+    else return user;
+  } catch {
+    return undefined;
+  }
 };
 
 export const createUrlUser = async function (index: string, password: string) {
@@ -34,7 +42,7 @@ export const updateUrlUser = async function (uid: string, password: string) {
 
 export const deleteUrlUser = async function (index: string) {
   const user = await getUrlUser(index);
-  if (!user.uid) return true;
+  if (!user) return true;
   await authUrl.deleteUser(user.uid as string);
   return true;
 };

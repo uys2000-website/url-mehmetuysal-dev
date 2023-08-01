@@ -29,7 +29,6 @@
 
 <script lang="ts">
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from '@headlessui/vue'
-import { Url } from 'types/url';
 import Basic from './basic.vue';
 
 export default {
@@ -44,14 +43,14 @@ export default {
   },
   data() {
     return {
-      url: {} as Url
+      url: {} as UrlData
     }
   },
   methods: {
     tabChange() {
       if (this.url.urlOrginal) this.setUrl(this.url)
     },
-    setUrl(url: Url) {
+    setUrl(url: UrlData) {
       setTimeout(() => {
         this.url = url;
         const basic = (this.$refs.basic as typeof Basic)

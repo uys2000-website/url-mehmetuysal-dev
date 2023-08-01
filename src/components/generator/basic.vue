@@ -25,7 +25,6 @@
 
 
 <script lang="ts">
-import { Url } from '~/types/url'
 
 export default {
   props: {
@@ -38,7 +37,7 @@ export default {
   },
   data() {
     return {
-      url: {} as Url,
+      url: {} as UrlData,
       generatedUrl: "",
     }
   },
@@ -48,7 +47,7 @@ export default {
     }
   },
   methods: {
-    setUrl(url: Url) {
+    setUrl(url: UrlData) {
       this.url = url
     },
     async getLastUrl() {
@@ -59,7 +58,7 @@ export default {
     async createNewUrl(index: number) {
       const _index = index + 0x1;
       const user = useMainAuth().currentUser?.uid
-      const url = new Url(this.url.urlOrginal, _index, this.url.urlUsageLimit, ...[...Array(4).fill(undefined).values()], user ? user : undefined);
+      const url = new UrlData(this.url.urlOrginal, _index, this.url.urlUsageLimit, ...[...Array(4).fill(undefined).values()], user ? user : undefined);
       await createUrl.pLogger(getStringFromHex(_index), url);
       return url
     },

@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
   if (doc.urlOwner != user.uid) return { success: false };
 
   const urlUser = await getUrlUser(body.index);
-  if (!urlUser.uid) await createUrlUser(body.index, body.p);
+  if (!urlUser) await createUrlUser(body.index, body.p);
   else await updateUrlUser(urlUser.uid as string, body.p);
 
   return { success: true };

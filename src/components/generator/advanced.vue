@@ -74,7 +74,7 @@
 
 <script lang="ts">
 import QuillClient from 'components/common/quill.client.vue';
-import { Url } from '~/types/url'
+import { UrlData } from "~/types/url";
 
 export default {
   props: {
@@ -87,7 +87,7 @@ export default {
   },
   data() {
     return {
-      url: {} as Url,
+      url: {} as UrlData,
       hasContent: false,
       hasPassword: false,
       password: "",
@@ -101,7 +101,7 @@ export default {
     }
   },
   methods: {
-    setUrl(url: Url) {
+    setUrl(url: UrlData) {
       this.url = url
     },
     async createUser(index: string) {
@@ -116,17 +116,12 @@ export default {
         return true
       } catch { return false }
     },
-    async getLastUrl() {
-      const { data } = await useFetch("/api/url");
-      if (data && data.value && data.value.index) return data.value.index;
-      else return 0;
-    },
     async createNewUrl(index: number) {
       const _index = index + 0x1;
       const _indexString = getStringFromHex(_index)
       const isUserCreated = await this.createUser(_indexString)
       const user = getUserId()
-      const url = new Url(
+      const url = new UrlData(
         this.url.urlOrginal,
         _index,
         this.url.urlUsageLimit,
@@ -147,8 +142,8 @@ export default {
     },
     async runForm() {
       if (this.updateMode) return this.updateCurrentUrl()
-      const lastUrlIndex = await this.getLastUrl.logger();
-      const currentUrl = await this.createNewUrl(lastUrlIndex);
+      const { index } = await getLastUrl.logger();
+      const currentUrl = await this.createNewUrl(index);
       this.generatedUrl = "suys.jw.lt/" + getStringFromHex(currentUrl.urlIndex);
 
     }

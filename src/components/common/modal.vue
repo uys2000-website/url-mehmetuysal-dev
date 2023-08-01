@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     _closeModal() {
-      console.log("---")
       if (this.closeModal) this.closeModal()
     }
   },

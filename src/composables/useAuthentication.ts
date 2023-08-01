@@ -9,6 +9,7 @@ import {
   signInWithPopup,
   signInWithRedirect,
   signOut,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 const returnFalse = () => new Promise((s, j) => j(false));
@@ -26,6 +27,13 @@ export const loginWithRedirection = function () {
   });
 };
 
+export const loginToUrl = function (index: string, password: string) {
+  return signInWithEmailAndPassword(
+    useUrlAuth(),
+    `${index}@mehmetuysal.dev`,
+    `${index}:mehmetuysal.dev;${password},`
+  );
+};
 export const logout = function () {
   return signOut(useMainAuth());
 };
@@ -42,6 +50,10 @@ export const listenAuth = function (runFunction: NextOrObserver<User>) {
   return onAuthStateChanged(useMainAuth(), runFunction);
 };
 
+export const listenUrlAuth = function (runFunction: NextOrObserver<User>) {
+  return onAuthStateChanged(useUrlAuth(), runFunction);
+};
+
 export const createAuth = function (index: string, password: string) {
   return createUserWithEmailAndPassword(
     useUrlAuth(),
@@ -49,16 +61,20 @@ export const createAuth = function (index: string, password: string) {
     `${index}:mehmetuysal.dev;${password},`
   );
 };
-export const getUserToken = function () {
+export const getUserToken = async function () {
   const user = useMainAuth().currentUser;
-  if (user) return user?.getIdToken(true);
+  if (user) return await user.getIdToken(true);
   else return returnFalse();
 };
-
+export const getUrlUserToken = async function () {
+  const user = useUrlAuth().currentUser;
+  if (user) return await user.getIdToken(true);
+  else return returnFalse();
+};
 export const updateAuth = async function (index: string, password: string) {
   const token = await getUserToken();
   if (token) {
-    await useFetch("/api/auth", {
+    await useLazyFetch("/api/auth", {
       method: "POST",
       body: {
         token: token,
