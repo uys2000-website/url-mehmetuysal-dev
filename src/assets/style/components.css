@@ -11,8 +11,14 @@ svg {
 form label {
   @apply w-full flex items-center justify-between my-1;
 }
+input[type="checkbox"] {
+  @apply ml-auto mr-1 px-2 py-1 w-5 h-5;
+  @apply bg-white text-black;
+  @apply rounded-sm;
+}
+
 button[type="submit"] {
-  @apply ml-auto mr-0 px-2 py-1 w-1/2;
+  @apply ml-auto mr-0 px-2 py-1 w-full;
   @apply bg-white text-black;
   @apply rounded-sm;
 }
@@ -25,4 +31,7 @@ div[role="tablist"] {
 button[role="tab"] {
   @apply bg-slate-900 border border-yellow-950;
   @apply rounded-lg px-2 py-1 w-full h-full;
+}
+button[id^="headlessui-disclosure-button-"] {
+  @apply w-full text-left mt-5;
 }

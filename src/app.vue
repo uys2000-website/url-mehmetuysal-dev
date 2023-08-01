@@ -14,7 +14,7 @@ export default defineComponent({
   computed: {
     isLogged() {
       return this.mainStore.isLogged
-    }
+    },
   },
   methods: {
     redirectToGenerator() {

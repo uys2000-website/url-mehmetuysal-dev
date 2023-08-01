@@ -26,6 +26,9 @@ export default {
     listenAuth((user) => {
       this.mainStore.isLogged = user ? true : false
     })
+    listenUrlAuth((user) => {
+      this.mainStore.isLoggedToUrl = user ? true : false
+    })
   }
 }
 </script>
