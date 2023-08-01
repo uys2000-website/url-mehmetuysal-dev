@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
 
   if (orginalUser.uid != sendedUser.uid)
     return { success: false, isLocked: true };
-  console.log("inpost");
   runLater(afterUrlVisit, index, doc);
   return doc as UrlData;
 });
