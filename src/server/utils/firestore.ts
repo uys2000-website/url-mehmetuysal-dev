@@ -19,6 +19,20 @@ export const getUrlDoc = async function (index: string) {
   return undefined;
 };
 
+export const delteUrlsToClean = async function () {
+  const timestamp = new Date(new Date().getFullYear(), 0, 0).getTime();
+  const target = firestoreUrl
+    .collection("Url")
+    .where("utimestamp", "<", timestamp);
+  const count = await target.count().get();
+  const snapshot = await target.get();
+  let successCount = 0;
+  for (let index = 0; index < snapshot.docs.length; index++) {
+    await firestoreUrl.collection("Url").doc(snapshot.docs[index].id).delete();
+    successCount += 1;
+  }
+  return { totalCount: count.data().count, successCount: successCount };
+};
 export const deleteUrlDoc = async function (index: string) {
   try {
     await firestoreUrl.doc(`Url/${index}`).delete();
