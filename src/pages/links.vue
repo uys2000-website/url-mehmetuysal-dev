@@ -1,66 +1,68 @@
 <template>
-  <table class="max-h-40 overflow-auto">
-    <thead>
-      <tr>
-        <th>
-          Orginal Url
-        </th>
-        <th>
-          Short Url
-        </th>
-        <th>
-          Usage Left
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <template v-if="links.length == 0">
+  <div class="overflow-auto max-w-2xl w-full" style="">
+    <table class="max-h-40 overflow-auto w-full">
+      <thead>
         <tr>
+          <th>
+            Orginal Url
+          </th>
+          <th>
+            Short Url
+          </th>
+          <th>
+            Usage Left
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-if="links.length == 0">
+          <tr>
+            <td>
+              No links
+            </td>
+          </tr>
+        </template>
+        <tr v-for="link, index in links" :key="index">
           <td>
-            No links
+            {{ link.urlOrginal }}
+          </td>
+          <td>
+            <a :href="`http://suys.jw.lt/${getStringFromHex(link.urlIndex)}${debugParamater}`">
+              http://suys.jw.lt/{{ getStringFromHex(link.urlIndex) }}
+            </a>
+          </td>
+          <td>
+            {{ link.urlUsageLimit - link.urlUsage }}
+          </td>
+          <td>
+            <button class="text-2xl" @click="openUpdateModal(link)">
+              ✎
+            </button>
+          </td>
+          <td>
+            <button class="text-lime-400" @click="deleteUrl(link.urlIndex, index)" :disabled="buttons[index]">
+              X
+            </button>
           </td>
         </tr>
-      </template>
-      <tr v-for="link, index in links" :key="index">
-        <td>
-          {{ link.urlOrginal }}
-        </td>
-        <td>
-          <a :href="`http://suys.jw.lt/${getStringFromHex(link.urlIndex)}${debugParamater}`">
-            http://suys.jw.lt/{{ getStringFromHex(link.urlIndex) }}
-          </a>
-        </td>
-        <td>
-          {{ link.urlUsageLimit - link.urlUsage }}
-        </td>
-        <td>
-          <button class="text-2xl" @click="openUpdateModal(link)">
-            ✎
-          </button>
-        </td>
-        <td>
-          <button class="text-lime-400" @click="deleteUrl(link.urlIndex, index)" :disabled="buttons[index]">
-            X
-          </button>
-        </td>
-      </tr>
-    </tbody>
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          <button @click="lastPage">
-            Last Page
-          </button>
-        </td>
-        <td></td>
-        <td colspan="2">
-          <button @click="nextPage">
-            Next Page
-          </button>
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2">
+            <button @click="lastPage">
+              Last Page
+            </button>
+          </td>
+          <td></td>
+          <td colspan="2">
+            <button @click="nextPage">
+              Next Page
+            </button>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
 
   <CommonModal :is-open="isEditing" :is-persistent="false" :close-modal="closeUpdateModal">
     <GeneratorTemplate ref="generator" update-mode :cancel="closeUpdateModal" />
