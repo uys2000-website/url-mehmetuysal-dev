@@ -1,5 +1,6 @@
 <template>
-  <div class="w-full max-w-md md:px-8 py-10 sm:px-0 bg-primary">
+  <div class="w-full max-w-2xl md:px-8 py-10 sm:px-0 bg-primary overflow-auto"
+    style="max-height: 80vh;max-height: 80svh;">
     <TabGroup>
       <TabList class="flex space-x-1 rounded-xl bg-blue-900/20 p-1">
         <Tab @click="tabChange">

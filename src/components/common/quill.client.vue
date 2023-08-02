@@ -1,5 +1,5 @@
 <template>
-  <QuillEditor ref="quill" theme="snow"></QuillEditor>
+  <QuillEditor ref="quill" theme="snow" toolbar="full"></QuillEditor>
 </template>
 
 <script lang="ts">
