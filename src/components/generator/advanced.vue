@@ -136,8 +136,9 @@ export default {
     async updateCurrentUrl() {
       const index = getStringFromHex(this.url.urlIndex)
       const user = await this.updateUser(index)
+      this.url.urlContent = this.hasContent ? (this.$refs.quill as typeof QuillClient).getContent() : undefined
       return await updateUrl.pLogger(index, this.url).then(() => {
-        //if (this.cancel) this.cancel()
+        if (this.cancel) this.cancel()
       })
     },
     async runForm() {
