@@ -21,7 +21,7 @@ export default defineComponent({
       this.$router.push("/")
     },
     checkIsLogged() {
-      if (this.$route.path != "/")
+      if (this.$route.path == "/links")
         setTimeout(() => {
           if (!getUserId.logger()) {
             alert("Opss you are not logged")

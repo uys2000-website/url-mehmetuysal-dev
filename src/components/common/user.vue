@@ -57,7 +57,7 @@ export default {
       this.shouldLogin = false
       this.url = url
       this.setBackgorund()
-      //this.startTimer()
+      this.startTimer()
     }
   },
   async mounted() {
